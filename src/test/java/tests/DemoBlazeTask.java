@@ -1,13 +1,8 @@
 package tests;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
-import java.util.List;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -26,6 +21,7 @@ public class DemoBlazeTask {
 	private LoginPage loginPage;
 	private ProductPage productPage;
 	private CartPage cartPage;
+
 
 	@BeforeMethod
 	public void setUp() {
@@ -87,6 +83,15 @@ public class DemoBlazeTask {
 		Assert.assertTrue(cartPage.verifyDeleteOFProduct());
 	}
 	
+	@Test
+	public void placeorder() throws InterruptedException {
+		homePage.navigateTo();
+		homePage.addRandomLaptopToCart();
+		productPage.clickOnAddToCart();
+		cartPage.naviagetTOCart();
+		Assert.assertEquals("OK", cartPage.clickPlaceorderButton());;
+		//Thread.sleep(1000);	
+	}
 	
 	
 	

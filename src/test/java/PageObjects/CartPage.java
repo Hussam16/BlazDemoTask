@@ -13,7 +13,12 @@ public class CartPage {
 
 	private final WebDriver driver;
 	private By deleteLink = By.partialLinkText("Delete");
-	private By totalPrice = By.id("totalp");
+	private By placeOrderButton=By.cssSelector("button[class='btn btn-success']");
+	private By name = By.id("name");
+	private By creditcard = By.id("card");
+	private By purchaseButton=By.xpath("//button[contains(text(),'Purchase')]");
+	private By successMessage=By.xpath("//button[@class='confirm btn btn-lg btn-primary' and @tabindex='1' and contains(@style, 'display: inline-block;')]");
+	
 
 	public CartPage(WebDriver driver) {
 		this.driver = driver;
@@ -49,5 +54,24 @@ public class CartPage {
 		}
 
 	}
+
+
+
+
+public String clickPlaceorderButton() {
+	
+	driver.findElement(placeOrderButton).click();
+	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+	wait.until(ExpectedConditions.elementToBeClickable(name));
+	driver.findElement(name).sendKeys("hussam");
+	driver.findElement(creditcard).sendKeys("4444");
+	 wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+	wait.until(ExpectedConditions.elementToBeClickable(purchaseButton));
+	driver.findElement(purchaseButton).click();
+	return driver.findElement(successMessage).getText();
+	
+	
+}
+
 
 }
