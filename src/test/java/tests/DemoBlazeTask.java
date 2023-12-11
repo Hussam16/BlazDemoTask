@@ -1,6 +1,7 @@
 package tests;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.testng.annotations.Test;
 
 import com.github.javafaker.Faker;
 
+import PageObjects.CartPage;
 import PageObjects.HomePage;
 import PageObjects.LoginPage;
 import PageObjects.ProductPage;
@@ -23,6 +25,7 @@ public class DemoBlazeTask {
 	private HomePage homePage;
 	private LoginPage loginPage;
 	private ProductPage productPage;
+	private CartPage cartPage;
 
 	@BeforeMethod
 	public void setUp() {
@@ -30,6 +33,7 @@ public class DemoBlazeTask {
 		homePage = new HomePage(driver);
 		loginPage = new LoginPage(driver);
 		productPage = new ProductPage(driver);
+		cartPage = new CartPage(driver);
 
 	}
 
@@ -54,35 +58,33 @@ public class DemoBlazeTask {
 	@Test
 	public void categoriesHasItems() throws InterruptedException {
 		homePage.navigateTo();
-		homePage.ClickMonitorsCategory(); // has 2 items 
-		Assert.assertTrue(homePage.returnPageIteams()>0);
+		homePage.ClickMonitorsCategory(); // has 2 items
+		Assert.assertTrue(homePage.returnPageIteams() > 0);
 		homePage.clickLaptopCategory();
-		Assert.assertTrue(homePage.returnPageIteams()>0);
+		Assert.assertTrue(homePage.returnPageIteams() > 0);
 		homePage.clickPhoneCategory();
-		Assert.assertTrue(homePage.returnPageIteams()>0);
-	
+		Assert.assertTrue(homePage.returnPageIteams() > 0);
+
 	}
-	
+
 	@Test
 	public void addRandomItemToCart() throws InterruptedException {
 		homePage.navigateTo();
 		homePage.addRandomLaptopToCart();
 		productPage.clickOnAddToCart();
 		Assert.assertEquals(productPage.getAlertTextMsg(), "Product added");
-		
+
 	}
-	
+
 	@Test
 	public void deleteRandomProduct() throws InterruptedException {
 		homePage.navigateTo();
 		homePage.addRandomLaptopToCart();
 		productPage.clickOnAddToCart();
 		Assert.assertEquals(productPage.getAlertTextMsg(), "Product added");
-		driver.findElement(By.linkText("Cart")).click();
-		Thread.sleep(10000);
-		driver.findElement(By.linkText("Delete"));
-		Thread.sleep(10000);
-		
+		cartPage.naviagetTOCart();
+		cartPage.deleteProduct();
+		Assert.assertTrue(cartPage.verifyDeleteOFProduct());
 	}
 	
 	
